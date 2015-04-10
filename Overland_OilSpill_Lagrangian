@@ -1,0 +1,1600 @@
+function varargout = Overland_OilSpill_Lagrangian(varargin)
+% OVERLAND_OILSPILL_LAGRANGIAN MATLAB code for Overland_OilSpill_Lagrangian.fig
+%      OVERLAND_OILSPILL_LAGRANGIAN, by itself, creates a new OVERLAND_OILSPILL_LAGRANGIAN or raises the existing
+%      singleton*.
+%
+%      H = OVERLAND_OILSPILL_LAGRANGIAN returns the handle to a new OVERLAND_OILSPILL_LAGRANGIAN or the handle to
+%      the existing singleton*.
+%
+%      OVERLAND_OILSPILL_LAGRANGIAN('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in OVERLAND_OILSPILL_LAGRANGIAN.M with the given input arguments.
+%
+%      OVERLAND_OILSPILL_LAGRANGIAN('Property','Value',...) creates a new OVERLAND_OILSPILL_LAGRANGIAN or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before Overland_OilSpill_Lagrangian_OpeningFcn gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stopbutton.  All inputs are passed to Overland_OilSpill_Lagrangian_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Edit the above text to modify the response to help Overland_OilSpill_Lagrangian
+
+% Last Modified by GUIDE v2.5 09-Apr-2015 18:34:35
+
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @Overland_OilSpill_Lagrangian_OpeningFcn, ...
+                   'gui_OutputFcn',  @Overland_OilSpill_Lagrangian_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+
+% --- Executes just before Overland_OilSpill_Lagrangian is made visible.
+function Overland_OilSpill_Lagrangian_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to Overland_OilSpill_Lagrangian (see VARARGIN)
+
+% Choose default command line output for Overland_OilSpill_Lagrangian
+clc;
+handles.output = hObject;
+
+% Update handles structure
+guidata(hObject, handles);
+axes(handles.axes2);
+imshow(imread('ERM_logo.png'));
+set(handles.Play,'cdata',playbutton,'String','','backgroundcolor',[0.8,0.8,0.8]);
+set(handles.Stopbutton,'cdata',stopbutton,'String','','backgroundcolor',[0.8,0.8,0.8]);
+set(handles.Record,'cdata',recordbutton,'String','','backgroundcolor',[0.8,0.8,0.8]);
+
+% UIWAIT makes Overland_OilSpill_Lagrangian wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+
+% --- Outputs from this function are returned to the command line.
+function varargout = Overland_OilSpill_Lagrangian_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
+
+% --- Executes on button press in radiobutton_trajectory.
+function radiobutton_trajectory_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton_trajectory (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton_trajectory
+
+
+% --- Executes on button press in radiobutton_oil_thickness.
+function radiobutton_oil_thickness_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton_oil_thickness (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton_oil_thickness
+
+
+% --- Executes on button press in radiobutton_travel_time.
+function radiobutton_travel_time_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton_travel_time (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton_travel_time
+
+
+% --- Executes on button press in radiobutton_flux.
+function radiobutton_flux_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton_flux (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton_flux
+
+
+
+function latitude_Callback(hObject, eventdata, handles)
+% hObject    handle to latitude (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of latitude as text
+%        str2double(get(hObject,'String')) returns contents of latitude as a double
+latitude = str2double(get(hObject,'String'));
+handles.latitude_value = latitude;
+guidata(hObject,handles);
+
+
+
+% --- Executes during object creation, after setting all properties.
+function latitude_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to latitude (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function longititude_Callback(hObject, eventdata, handles)
+% hObject    handle to longititude (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of longititude as text
+%        str2double(get(hObject,'String')) returns contents of longititude as a double
+longititude = str2double(get(hObject','String'));
+handles.longititude_value = longititude;
+guidata(hObject,handles);
+
+% --- Executes during object creation, after setting all properties.
+function longititude_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to longititude (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function release_rate_Callback(hObject, eventdata, handles)
+% hObject    handle to release_rate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of release_rate as text
+%        str2double(get(hObject,'String')) returns contents of release_rate as a double
+release_rate = str2double(get(hObject,'String'));
+handles.release_rate = release_rate;
+guidate(hObject,handles);
+
+% --- Executes during object creation, after setting all properties.
+function release_rate_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to release_rate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function release_duration_Callback(hObject, eventdata, handles)
+% hObject    handle to release_duration (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of release_duration as text
+%        str2double(get(hObject,'String')) returns contents of release_duration as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function release_duration_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to release_duration (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in oil_types.
+function oil_types_Callback(hObject, eventdata, handles)
+% hObject    handle to oil_types (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns oil_types contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from oil_types
+
+
+% --- Executes during object creation, after setting all properties.
+function oil_types_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to oil_types (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on slider movement.
+function slider_movie_frame_rate_Callback(hObject, eventdata, handles)
+% hObject    handle to slider_movie_frame_rate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider_movie_frame_rate_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider_movie_frame_rate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+
+function xMin_Callback(hObject, eventdata, handles)
+% hObject    handle to xMin (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of xMin as text
+%        str2double(get(hObject,'String')) returns contents of xMin as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function xMin_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to xMin (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function xMax_Callback(hObject, eventdata, handles)
+% hObject    handle to xMax (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of xMax as text
+%        str2double(get(hObject,'String')) returns contents of xMax as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function xMax_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to xMax (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function yMin_Callback(hObject, eventdata, handles)
+% hObject    handle to yMin (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of yMin as text
+%        str2double(get(hObject,'String')) returns contents of yMin as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function yMin_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to yMin (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function yMax_Callback(hObject, eventdata, handles)
+% hObject    handle to yMax (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of yMax as text
+%        str2double(get(hObject,'String')) returns contents of yMax as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function yMax_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to yMax (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in Play.
+function Play_Callback(hObject, eventdata, handles)
+% hObject    handle to Play (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in Next.
+function Next_Callback(hObject, eventdata, handles)
+% hObject    handle to Next (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+hfigure = handles.axes1;
+hplot = handles.uipanel_plot_options;
+whichPlot = get(get(hplot,'SelectedObject'),'String');
+if(isfield(handles,{'elevation'})==0)
+    msgbox('There is no data to plot, please start simulation first!');
+    return
+end
+handles.plotNumber = handles.plotNumber + 1;
+N = handles.plotNumber;
+if ( N <= size(handles.x,2))
+switch whichPlot
+    
+    case 'Trajectory'
+        h=pcolor(hfigure,handles.xutm,handles.yutm,handles.elevation);
+        set(h,'edgecolor','none','facealpha',handles.transparency_value);
+        colorbar;
+        hold on;
+        line(handles.x(:,N),handles.y(:,N),'marker','o','markerfacecolor','w','color','w','linestyle','none');
+        title(hfigure,['Plotting the ',num2str(N),'th record (Total:',num2str(size(handles.x,2)),')']);
+       disp('Making plot for Trajectory');
+    case 'Oil Thickness(mm)'
+    
+    case  'Travel Time(min)'
+        
+    case  'Flux (kg/(m2.hr))'
+ 
+    case  'Mass Balance'
+    
+    otherwise
+        
+end
+% update the axis limit to current plot
+handles.xMin_value = str2double(get(handles.xMin,'String'));
+handles.xMax_value = str2double(get(handles.xMax,'String'));
+handles.yMin_value = str2double(get(handles.yMin,'String'));
+handles.yMax_value = str2double(get(handles.yMax,'String'));
+
+set(handles.xMin,'String',num2str(handles.xMin_value));
+set(handles.xMax,'String',num2str(handles.xMax_value));
+set(handles.yMin,'String',num2str(handles.yMin_value));
+set(handles.yMax,'String',num2str(handles.yMax_value));
+
+end
+guidata(hObject,handles);
+
+% --- Executes on button press in Previous.
+function Previous_Callback(hObject, eventdata, handles)
+% hObject    handle to Previous (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+hfigure = handles.axes1;
+hplot = handles.uipanel_plot_options;
+whichPlot = get(get(hplot,'SelectedObject'),'String');
+if(isfield(handles,{'elevation'})==0)
+    msgbox('There is no data to plot, please start simulation first!');
+    return
+end
+
+handles.plotNumber = handles.plotNumber - 1;
+N = handles.plotNumber;
+if ( N >0)
+switch whichPlot
+    
+    case 'Trajectory'
+        h=pcolor(hfigure,handles.xutm,handles.yutm,handles.elevation);
+        set(h,'edgecolor','none','facealpha',handles.transparency_value);
+        colorbar;
+        hold on;
+        line(handles.x(:,N),handles.y(:,N),'marker','o','markerfacecolor','w','color','w','linestyle','none');
+        title(hfigure,['Plotting the ',num2str(N),'th record (Total:',num2str(size(handles.x,2)),')']);
+       disp('Making plot for Trajectory');
+    case 'Oil Thickness(mm)'
+    
+    case  'Travel Time(min)'
+        
+    case  'Flux (kg/(m2.hr))'
+ 
+    case  'Mass Balance'
+    
+    otherwise
+        
+end
+% update the axis limit to current plot
+handles.xMin_value = str2double(get(handles.xMin,'String'));
+handles.xMax_value = str2double(get(handles.xMax,'String'));
+handles.yMin_value = str2double(get(handles.yMin,'String'));
+handles.yMax_value = str2double(get(handles.yMax,'String'));
+
+set(handles.xMin,'String',num2str(handles.xMin_value));
+set(handles.xMax,'String',num2str(handles.xMax_value));
+set(handles.yMin,'String',num2str(handles.yMin_value));
+set(handles.yMax,'String',num2str(handles.yMax_value));
+
+end
+guidata(hObject,handles);
+
+
+% --- Executes on button press in Stopbutton.
+function Stopbutton_Callback(hObject, eventdata, handles)
+% hObject    handle to Stopbutton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function time_step_Callback(hObject, eventdata, handles)
+% hObject    handle to time_step (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of time_step as text
+%        str2double(get(hObject,'String')) returns contents of time_step as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function time_step_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to time_step (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function dx_Callback(hObject, eventdata, handles)
+% hObject    handle to dx (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of dx as text
+%        str2double(get(hObject,'String')) returns contents of dx as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function dx_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to dx (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function dy_Callback(hObject, eventdata, handles)
+% hObject    handle to dy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of dy as text
+%        str2double(get(hObject,'String')) returns contents of dy as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function dy_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to dy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function number_of_particles_Callback(hObject, eventdata, handles)
+% hObject    handle to number_of_particles (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of number_of_particles as text
+%        str2double(get(hObject,'String')) returns contents of number_of_particles as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function number_of_particles_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to number_of_particles (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function simulation_duration_Callback(hObject, eventdata, handles)
+% hObject    handle to simulation_duration (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of simulation_duration as text
+%        str2double(get(hObject,'String')) returns contents of simulation_duration as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function simulation_duration_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to simulation_duration (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in start.
+function start_Callback(hObject, eventdata, handles)
+% hObject    handle to start (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+%Initilization data
+handles.latitude_value = str2double(get(handles.latitude,'String'));
+handles.longitude_value = str2double(get(handles.longititude,'String'));
+%oil information
+handles.release_rate_value = str2double(get(handles.release_rate,'String'));
+handles.release_duration_value = str2double(get(handles.release_duration,'String'));
+oil_types = get(handles.oil_types,'String'); %cell array
+handles.oil_type_value = char(oil_types(get(handles.oil_types,'value')));
+switch handles.oil_type_value
+    case 'Diesel'
+        handles.oil_density = 832; %kg/m3
+    case 'Gas'
+        handles.oil_density = 770; %kg/m3
+    case 'Crude'
+        handles.oil_density = 850; %kg/m3
+end
+
+%DEM data
+h1 = handles.uipanel_dem_data;
+DEM_source = get(get(h1,'SelectedObject'),'String');
+switch DEM_source
+    case 'GLOBE'
+         handles.globe_value = true;  
+         [DEM_filename,DEM_filepath] = uigetfile('*.hdr','select the location of GLOBE DEM data file(any hdr file if not sure which one');
+    case 'User Customized DEM'
+%          [pathname,dirname] = uigetfile();
+%          fullpath = fullfile (dirname,pathname);
+%          fid = fopen(fullpath);
+%          % read the data;
+%           handles.DEM_data = balabala;
+    otherwise
+        disp('Unknown Data Source');
+end
+%utm zone information
+handles.utm_zone_value = get(handles.UTMzone,'value');
+h2 = handles.uipanel38;
+handles.hemisphere = get(get(h2,'SelectedObject'),'String');
+
+% Computation control data
+handles.time_step_value = str2double(get(handles.time_step,'String'));
+handles.simulation_duration_value = str2double(get(handles.simulation_duration,'String'));
+handles.output_interval_value = str2double(get(handles.output_interval,'String'));
+handles.dx_value = str2double(get(handles.dx,'String'));
+handles.dy_value = str2double(get(handles.dy,'String'));
+handles.number_of_particles_value = str2double(get(handles.number_of_particles,'String'));
+handles.horizontal_diffusion_coef_value = str2double(get(handles.horizontal_diffusion_coef,'String'));
+
+% Graphic settings
+handles.transparency_value = get(handles.transparency,'value');
+handles.xMin_value = str2double(get(handles.xMin,'String'));
+handles.xMax_value = str2double(get(handles.xMax,'String'));
+handles.yMin_value = str2double(get(handles.yMin,'String'));
+handles.yMax_value = str2double(get(handles.yMax,'String'));
+
+hbox = handles.uipanel_box_setting;
+box = get(get(hbox,'SelectedObject'),'String');
+switch box
+    case 'On'
+        handles.figure_box = true;
+    case 'Off'
+        handles.figure_box = false;
+end
+
+% background image
+hbg = handles.uipanel_bg_image;
+bg_image = get(get(hbg,'SelectedObject'),'String');
+switch bg_image
+    case 'Default'
+        handles.bg_image_value = bg_image;
+        disp('Choose GLOBE DEM as background');
+    otherwise
+%         [pathname,dirname] = uigetfile();
+%         fullpath = fullfile(dirname,pathname);
+%         % imread , only geo-referenced image will be supported
+end
+
+% physical process switches
+hsr = handles.uipanel32;
+sr_switch = get(get(hsr,'SelectedObject'),'String');
+switch sr_switch
+    case 'On'
+        handles.surface_roughness_value = ture;
+    otherwise
+        handles.surface_roughness_value = false;
+end
+
+hevp = handles.uipanel33;
+evp_switch = get(get(hevp,'SelectedObject'),'String');
+switch evp_switch
+    case 'On'
+        handles.evaporation_value = true;
+        evaporation_rate = 0.01; % temporary value
+    otherwise
+        handles.evaporation_value = false;
+end
+
+hwind = handles.uipanel34;
+wind_switch = get(get(hwind,'SelectedObject'),'String');
+switch wind_switch
+    case 'On'
+        handles.wind_value = true;
+    otherwise
+        handles.wind_value = false;
+end
+
+hprecip = handles.uipanel35;
+precip_switch = get(get(hprecip,'SelectedObject'),'String');
+switch precip_switch
+    case 'On'
+        handles.precip_value = true;
+    otherwise
+        handles.precip_value = false;
+end
+
+%movie control
+handles.fps_value = get(handles.slider_FPS,'value');
+
+
+
+%% start the simulation
+tic;
+flog = fopen('run_log.txt','wt');  
+release_location =[-73.5,42.5]; % [handles.longitude_value,handles.latitude_value];
+mass = handles.release_rate_value * handles.release_duration_value;  %kg
+num_of_particles = handles.number_of_particles_value;
+dispersion = handles.horizontal_diffusion_coef_value;
+time_step = handles.time_step_value;
+duration = handles.simulation_duration_value*3600;  % convert to seconds
+movie_interval = str2double(get(handles.output_interval,'String')) * 3600;
+
+
+% lagrangian(handles,release_location,mass,num_of_particles,dispersion,time_step,duration,movie_interval);
+
+latlim = [40.169,40.962];  
+lonlim = [-74.624,-73.438];
+% domain_dxdy = 0.4; % deg
+% latlim = [release_location(2) - 1, release_location(2) + 1];
+% lonlim = [release_location(1) - 1, release_location(1) + 1];
+tileNames = globedems(latlim, lonlim);
+sprintf('The tiles that cover the domain in GLOBE is : %s\n',tileNames{1:end}); 
+[elevation,refvec] = globedem (DEM_filepath,1,latlim,lonlim);
+fprintf(flog,'release location at (lat,lon):%f12.5 %f12.5\n',release_location);
+fprintf(flog,'time step is %d\n',time_step);
+fprintf(flog,'simulation length(hr) is: %d\n',duration);
+fprintf(flog,'model domain range(latlim,lonlim): %f12.5, %f12.5, %f12.5, %f12.5\n',latlim,lonlim);
+
+hplot = handles.axes1;
+h1=pcolor(hplot,elevation); 
+set(h1,'EdgeColor','none');
+colorbar;
+title('Direct GLOBE Elevation (m)');
+pause(2);
+%set the limits of computation domain
+%set up horizontal resolution 
+UTM_resolution = 1/30;
+lat_start = refvec(2);
+lon_start = refvec(3);
+lon_end = refvec(3) + (size(elevation,2)-1)* UTM_resolution;
+lat_end = refvec(2) + (size(elevation,1)-1)* UTM_resolution;
+[lon,lat] = meshgrid(linspace(lon_start,lon_end,size(elevation,2)),linspace(lat_start,lat_end,size(elevation,1)));
+
+h2=pcolor(hplot,lon,lat,elevation);
+set(h2,'edgecolor','none');
+colorbar;
+title('GLOBE Elevation (m) in UTM');
+
+[x,y]= wgs2utm(lat(:),lon(:),18,'N');
+% [x,y] = deg2utm(lat(:),lon(:));
+
+xutm = reshape(x,size(lon,1),size(lon,2)); %monotoniclly increase to the west
+yutm = reshape(y,size(lat,1),size(lat,2));  %monotonically increase to the north
+
+diffVal1 = abs(diff(xutm,1,2));
+diffVal2 = abs(diff(yutm,1,1));
+minResX = min(diffVal1(:));
+minResY = min(diffVal2(:));
+
+time_step_recommended = min(minResX,minResY)/4.95;
+sprintf('Recommended maximum time step (sec) is %f\n',time_step_recommended)
+set(handles.computed_max_timestep,'String',num2str(time_step_recommended));  % display maximum time step on GUI
+
+if(time_step>10*time_step_recommended)
+    error('time step is too big, please reduce it and resubmit!');
+end
+
+% 
+% [x1,y1] = wgs2utm(min(lat(:)),min(lon(:)),18,'N');
+% [x2,y2] = wgs2utm(max(lat(:)),max(lon(:)),18,'N');
+% [xutm,yutm] = meshgrid(linspace(x1,x2,size(elevation,2)),linspace(y1,y2,size(elevation,1)));
+
+
+%set the initial oil spill release location and amount (in # of particles)
+[release_x,release_y] = wgs2utm(release_location(2),release_location(1),18,'N'); %to utm
+
+
+% Oil start in the center of each cell,derive the center array
+center_x = zeros(size(xutm,1)-1, size(xutm,2)-1);
+center_y = zeros(size(xutm,1)-1, size(xutm,2)-1);
+grid_dx = zeros(size(xutm,1)-1, size(xutm,2)-1);
+grid_dy = zeros(size(xutm,1)-1, size(xutm,2)-1);
+area = zeros(size(xutm,1)-1, size(xutm,2)-1);
+center_elevation = zeros(size(xutm,1)-1, size(xutm,2)-1);
+num_cells = numel(center_x);
+corner_x = zeros(num_cells,4);
+corner_y = zeros(num_cells,4);
+
+
+for n = 1: size(center_x,1)
+    for m = 1 : size(center_x,2)
+        center_x(n,m) = (xutm(n,m)+xutm(n+1,m)+ xutm(n+1,m+1) + xutm(n,m+1))/4; 
+        center_y(n,m) = (yutm(n,m)+yutm(n+1,m)+ yutm(n+1,m+1) + yutm(n,m+1))/4;         
+        center_elevation(n,m) = (elevation(n,m)+elevation(n+1,m)+ elevation(n+1,m+1) + elevation(n,m+1))/4;         
+        ind = sub2ind(size(center_x),n,m);
+        corner_x(ind,1) = xutm(n,m);
+        corner_x(ind,2) = xutm(n,m+1);
+        corner_x(ind,3) = xutm(n+1,m+1);
+        corner_x(ind,4) = xutm(n+1,m);
+        
+        corner_y(ind,1) = xutm(n,m);
+        corner_y(ind,2) = xutm(n,m+1);
+        corner_y(ind,3) = xutm(n+1,m+1);
+        corner_y(ind,4) = xutm(n+1,m);
+        
+        grid_dx(n,m) = abs(xutm(n,m) - xutm(n,m+1));
+        grid_dy(n,m) = abs(yutm(n,m)-yutm(n+1,m));
+        area(n,m) = grid_dy(n,m) * grid_dy(n,m);       
+    end
+        
+end
+
+%find the index for the release location
+distance = sqrt((center_x(:)-release_x).^2 + (center_y(:)-release_y).^2);
+index = find(distance == min(distance));
+[release_i,release_j] = ind2sub(size(center_x),index);
+
+
+h3=pcolor(hplot,xutm,yutm,elevation); 
+set(h3,'edgecolor','none','facealpha',0.4);
+hold on;
+colorbar;
+plot(hplot,center_x(release_i,release_j),center_y(release_i,release_j),'ro','markersize',5);
+axis tight;
+title('GLOBE elevation in (m) with release location in red marker');
+xlabel('Easting in UTM (18N)');
+ylabel('Northing in UTM (18N)');
+
+%initialization for movie creation
+writerObj = VideoWriter('Spill Trajectory Movie.avi');
+writerObj.FrameRate = handles.fps_value;
+open(writerObj);
+set(gca,'nextplot','replacechildren');
+set(gcf,'Renderer','zbuffer');
+plotFrame = 1;
+%surface type database
+%e.g. 1 is smooth land; 2 is land with vegetation; 3 is water body; 4 is
+%surface with depression ; each type of surface will have a loss rate
+if(handles.surface_roughness_value)
+  surface_loss_rate = 0.1*rand(size(center_x));
+%translate surface type to loss rate array
+  surface_loss_rate(isnan(center_x)) = 1; %water cells will have particles all lost;           
+end
+
+
+% start the lagrangian calculation 
+x0 = release_x * ones(num_of_particles,floor(duration/time_step)+1);
+y0 = release_y * ones(num_of_particles,floor(duration/time_step)+1);
+num_active_particles = num_of_particles;
+
+% mass = handles.release_rate_value * handles.release_duration_value;  %kg
+x = zeros(num_of_particles,floor(duration/time_step)+2);
+y = zeros(num_of_particles,floor(duration/time_step)+2);
+mass_matrix = ones(num_of_particles,floor(duration/time_step)+2) ;
+oil_thickness = zeros(size(center_x,1),size(center_x,2),floor(duration/time_step)+2);
+flux = zeros(size(center_x,1),size(center_x,2),floor(duration/time_step)+2);
+x(:,1) = release_x;
+y(:,1) = release_y;
+mass_matrix(:,1) = mass/num_of_particles;
+
+% domain_boundary_xv = [min(xutm(:)),max(xutm(:)),max(xutm(:)),min(xutm(:)),min(xutm(:))];
+% domain_boundary_yv = [min(yutm(:)),min(yutm(:)), max(yutm(:)),max(yutm(:)),min(yutm(:)) ];
+tempx = center_x(2:end-1,2:end-1);
+tempy = center_y(2:end-1,2:end-1);
+domain_boundary_xv =[min(tempx(:)),max(tempx(:)),max(tempx(:)), min(tempx(:)), min(tempx(:))];  %shrink it by one so we can have an extra padded cell for the center cells
+domain_boundary_yv = [min(tempy(:)), min(tempy(:)), max(tempy(:)), max(tempy(:)),min(tempy(:))];
+
+in_domain = inpolygon(release_x,release_y,domain_boundary_xv,domain_boundary_yv);
+
+if(sum(in_domain)==0), error('The spill happens out of the model domain, please check the release location or expand your domain');end
+
+slope = 0;
+time = 0;
+N = 2; %N=1 is the starting location
+next_i = release_i * ones(1,num_of_particles);
+next_j = release_j * ones(1,num_of_particles);
+
+oil_thickness(release_i,release_j,1) = mass/area(release_i,release_j)/handles.oil_density;
+flux(release_i,release_j,1) = mass/area(release_i,release_j);
+verbose = false;
+fprintf(flog,'%s\n','ParticleID,I,J,Current_x,Current_y,Slope,Velocity,Distance Traveled,next_i,next_j,new_x,new_y,isInCurrentCell');
+while(time <= duration)
+%     sprintf('Computing time %f ,of total duration %f\n',time, duration)
+    fprintf(flog,'The %d th time step\n',N);
+    prct = 100*time/duration;
+    sprintf('Total completed percentage is: %3.1f%\n', prct)
+    set(handles.simulation_progress,'string',num2str(prct));  % update computation progress
+    for p = 1 : num_active_particles
+        if sum(in_domain)>0  %while it sit in the model domain
+            if(verbose)
+            sprintf('The model is still in domain: %d\n', in_domain)
+            end
+            if(num_active_particles > 0)
+                if(verbose)
+                sprintf('The total of particles left is: %d\n',num_active_particles)
+                end
+                % if at boundary, special treatment (E,W, N, S)
+                previous_i = next_i(p);  % current location to be more accurate
+                previous_j = next_j(p);
+                for i = next_i(p) -1 : next_i(p) + 1   % special case for next_i, next_j at the boundary
+                    for j = next_j(p) -1 : next_j(p) + 1
+                            %calculate slope
+                            temp = center_elevation(i,j) - center_elevation(next_i(p),next_j(p));
+                            temp = abs(temp) /sqrt((center_x(i,j)-center_x(next_i(p),next_j(p)))^2 + ...
+                                    (center_y(i,j)-center_y(next_i(p),next_j(p)))^2);
+
+                            %find the first cell to go and it's velocity
+                            if(temp > slope)
+                                slope = temp ;  
+                                [u_prct,v_prct]=speed_split(next_i(p),next_j(p),i,j);
+                                saved_i = i;
+                                saved_j = j;
+                            end
+                    end
+                end
+
+
+             velocity = 4.92 * sqrt(slope);   % ref: ASA
+             
+ 
+             x(p,N) = x(p,N-1) + velocity * u_prct * time_step + rand(1) * sqrt(6 *dispersion * time_step);
+             y(p,N) = y(p,N-1) + velocity * v_prct * time_step + rand(1) * sqrt(6 *dispersion * time_step);
+ % find which cell it is located
+             distance_traveled = sqrt((x(p,N)-x(p,N-1))^2 + (y(p,N)-y(p,N-1))^2);
+%              if(verbose)
+%              sprintf('Distance traveled (m) is: %f\n',distance_traveled)
+%              end
+             % update the i,j for new location
+             distance = sqrt((center_x(:)-x(p,N)).^2 + (center_y(:)-y(p,N)).^2);
+             index = find(distance == min(distance));
+             [next_i(p),next_j(p)] = ind2sub(size(center_x),index);
+% calculate loss due to different physical terms            
+% loss due to surface type (e.g. water, vegetation)
+            if(handles.surface_roughness_value)
+             mass_matrix(p,N) = mass_matrix(p,N) * (1 - surface_loss_rate(previous_i,previous_j));
+            end
+% loss due to evaporation
+            if(handles.evaporation_value)
+             mass_matrix(p,N) = mass_matrix(p,N) * (1 - evaporation_rate);
+            end
+            oil_thickness(next_i(p),next_j(p),N) = mass/area(next_i(p),next_j(p))/handles.oil_density;
+            flux(next_i(p),next_j(p),N) = mass/area(next_i(p),next_j(p))/((N-1)*time_step/3600);
+            
+             if(mass_matrix(p,N) <= 0)
+             num_active_particles = num_active_particles - 1;  % particle lost if in water and no mass
+             end
+             ind = sub2ind(size(center_x),previous_i,previous_j);
+             in_current_cell = inpolygon(x(p,N),y(p,N),[corner_x(ind,:),corner_x(ind,1)],[corner_y(ind,:),corner_y(ind,1)]);
+             in_domain = inpolygon(x(p,N),y(p,N),domain_boundary_xv,domain_boundary_yv);
+             
+% fprintf(flog,'%s\n','ParticleID,I,J,Current_x,Current_y,Slope,Velocity,Distance Traveled,next_i,next_j,new_x,new_y,isInCurrentCell');
+fprintf(flog,'%d,%d,%d,%f,%f,%f,%f,%f,%d,%d,%f,%f,%d \n',p,previous_i,previous_j,x(p,N-1), ...
+                y(p,N-1),slope,velocity,distance_traveled,next_i(p),next_j(p),x(p,N),y(p,N),in_current_cell);
+
+            slope =0; % reset slope
+            else
+                break;
+            end
+        else
+            break;
+        end
+    end
+        % write trajectory ever hour by default
+       if (plotFrame * movie_interval >= time && plotFrame * movie_interval <= (N+1) * time_step)
+                        line(x(:,N),y(:,N),'marker','o','markerfacecolor','w','color','w','linestyle','none');
+%                         scatter(hplot,x(:,N),y(:,N),'MarkerFaceColor','g');
+                        title(['time step of N =', num2str(N)]);
+                        frame = getframe;
+                        writeVideo(writerObj,frame);
+                        plotFrame = plotFrame + 1;
+       end
+    % update time and N for next time step
+                 time = time + time_step ;
+                 N = N + 1; 
+
+end
+telapsed = toc;
+close(writerObj);
+hold off;
+% save('Overland_oil_spill_output.mat','xutm','yutm','corner_x','corner_y','center_x','center_y',x,y);
+sprintf('Total computation time is %d\n second',telapsed)
+disp('Computation successfully finished!');
+
+
+
+%% 
+handles.x = x;
+handles.y = y;
+handles.elevation = elevation;
+handles.xutm = xutm;
+handles.yutm = yutm;
+handles.corner_x = corner_x;
+handles.corner_y = corner_y;
+handles.center_x = center_x;
+handles.center_y = center_y;
+handles.mass_matrix = mass_matrix;
+handles.mass_balance = sum(mass_matrix,1);
+handles.oil_thickness = oil_thickness;
+handles.flux = flux;
+
+
+guidata(hObject,handles);
+% UIWAIT makes simple_gui wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+
+
+
+function simulation_progress_Callback(hObject, eventdata, handles)
+% hObject    handle to simulation_progress (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of simulation_progress as text
+%        str2double(get(hObject,'String')) returns contents of simulation_progress as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function simulation_progress_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to simulation_progress (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in plot_dem.
+function plot_dem_Callback(hObject, eventdata, handles)
+% hObject    handle to plot_dem (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+longitude = str2double(get(handles.longititude,'String'));
+latitude = str2double(get(handles.latitude,'String'));
+release_location = [longitude,latitude];
+
+domain_dxdy = 1; % deg
+latlim = [release_location(2) - domain_dxdy, release_location(2) + domain_dxdy];
+lonlim = [release_location(1) - domain_dxdy, release_location(1) + domain_dxdy];
+[elevation,refvec] = globedem ('T:\Docs\Data\GIS\NOAA GLOBE Elevation\all10',1,latlim,lonlim);
+fh = handles.axes1;
+%set the limits of computation domain
+%set up horizontal resolution 
+UTM_resolution = 1/30;
+lat_start = refvec(2);
+lon_start = refvec(3);
+lon_end = refvec(3) + (size(elevation,2)-1)* UTM_resolution;
+lat_end = refvec(2) + (size(elevation,1)-1)* UTM_resolution;
+[lon,lat] = meshgrid(linspace(lon_start,lon_end,size(elevation,2)), ...
+            linspace(lat_start,lat_end,size(elevation,1)));
+set(fh,'nextplot','replacechildren'); 
+h2=pcolor(fh,lon,lat,elevation); hold on;
+set(h2,'edgecolor','none'); colorbar('peer',fh);
+line(release_location(1),release_location(2),'marker','o','markerfacecolor','w','color','w','linestyle','none');
+xlabel(fh,'Longitude');
+ylabel(fh,'Latitude');
+title(fh,'GLOBE elevation data (m) with release location');
+hold off;
+
+
+
+% --- Executes on button press in update_plot.
+function update_plot_Callback(hObject, eventdata, handles)
+% hObject    handle to update_plot (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.transparency_value = get(handles.transparency,'value');
+handles.xMin_value = str2double(get(handles.xMin,'String'));
+handles.xMax_value = str2double(get(handles.xMax,'String'));
+handles.yMin_value = str2double(get(handles.yMin,'String'));
+handles.yMax_value = str2double(get(handles.yMax,'String'));
+
+hbox = handles.uipanel_box_setting;
+box = get(get(hbox,'SelectedObject'),'String');
+switch box
+    case 'On'
+        handles.figure_box = true;
+    case 'Off'
+        handles.figure_box = false;
+end
+
+% background image
+hbg = handles.uipanel_bg_image;
+bg_image = get(get(hbg,'SelectedObject'),'String');
+switch bg_image
+    case 'Default'
+        handles.bg_image_value = bg_image;
+        disp('Choose GLOBE DEM as background');
+    otherwise
+%         [pathname,dirname] = uigetfile( {'*.jpg;*.png;*.bmp'},'Pick a geo_referenced image');
+%         bg_image_path = fullfile(dirname,pathname);
+%         % imread , only geo-referenced image will be supported
+end
+
+
+hc = handles.axes1;
+if(handles.yMax_value > handles.yMin_value && handles.xMax_value > handles.xMin_value)
+set(hc,'YLim',[handles.yMin_value,handles.yMax_value]);
+set(hc,'XLim',[handles.xMin_value,handles.xMax_value]);
+end
+
+hplot = handles.uipanel_plot_options;
+whichPlot = get(get(hplot,'SelectedObject'),'String');
+% if(strcmp(whichPlot,'Trajectory')==0)
+%     set(get(hc,'Children'),'facealpha',handles.transparency_value);  
+% else
+    set(get(hc,'Children'),'facealpha',handles.transparency_value);
+% end
+if(handles.figure_box)
+    set(hc,'box','on');
+else
+    set(hc,'box','off');
+end
+guidata(hObject,handles);
+
+% --- Executes on button press in Record.
+function Record_Callback(hObject, eventdata, handles)
+% hObject    handle to Record (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on slider movement.
+function slider2_Callback(hObject, eventdata, handles)
+% hObject    handle to slider2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+
+function output_interval_Callback(hObject, eventdata, handles)
+% hObject    handle to output_interval (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of output_interval as text
+%        str2double(get(hObject,'String')) returns contents of output_interval as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function output_interval_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to output_interval (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on slider movement.
+function slider_FPS_Callback(hObject, eventdata, handles)
+% hObject    handle to slider_FPS (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider_FPS_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider_FPS (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on button press in save_plot.
+function save_plot_Callback(hObject, eventdata, handles)
+% hObject    handle to save_plot (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+im = getframe(handles.axes1);
+hplot = handles.uipanel_plot_options;
+whichPlot = get(get(hplot,'SelectedObject'),'String');
+if(isfield(handles,{'plotNumber'}))
+    picname = [whichPlot,'@',num2str(handles.plotNumber),'.png'];
+else
+    picname = ['current_view','.png'];
+end
+imwrite(im.cdata,picname,'png');
+msgbox('Save current view to image (done!)');
+
+% function printButton_Callback(hObject, eventdata, handles)
+%     fileName = handles.fileName;
+%     f_tmp = figure('visible', 'off');
+%     copyobj(handles.axes1,f_tmp);
+%     print(f_tmp, '-dpng', fileName);
+%     close(f_tmp);
+% end
+
+% --- Executes on button press in plot.
+function plot_Callback(hObject, eventdata, handles)
+% hObject    handle to plot (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+hfigure = handles.axes1;
+set(gca,'nextplot','replacechildren');
+hplot = handles.uipanel_plot_options;
+whichPlot = get(get(hplot,'SelectedObject'),'String');
+handles.plotNumber = 1;
+N = handles.plotNumber;
+if(isfield(handles,{'elevation'})==0)
+    msgbox('There is no data to plot, please start simulation first!');
+    return
+end
+
+switch whichPlot
+    
+    case 'Trajectory'
+         
+        elevation = handles.elevation;
+        h=pcolor(hfigure,handles.xutm,handles.yutm,elevation);
+        set(h,'edgecolor','none','facealpha',handles.transparency_value);
+        caxis([min(elevation(:)),max(elevation(:))]);
+        colorbar;
+        hold on;
+        line(handles.x(:,N),handles.y(:,N),'marker','o','markerfacecolor','w','color','w','linestyle','none');
+        title(hfigure,['Plotting the ',num2str(N),'th record (Total:',num2str(size(handles.x,2)),')']);
+       disp('Making plot for Trajectory');
+    case 'Oil Thickness(mm)'
+         
+        thickness = squeeze(handles.oil_thickness(:,:,handles.plotNumber));
+        h0=pcolor(hfigure,handles.xutm,handles.yutm,handles.elevation);
+        set(h0,'edgecolor','none','facealpha',handles.transparency_value); hold on;
+        caxis([min(thickness(:)),max(thickness(:))]);
+        h=pcolor(hfigure,handles.center_x,handles.center_y,100*thickness);
+        set(h,'edgecolor','none','facealpha',handles.transparency_value);
+        colorbar;
+        title('oil thickness(mm)');
+        xlabel('xUTM');
+        ylabel('yUTM');
+    case  'Travel Time(min)'
+         
+        contour(hfigure,peaks(35));
+    case  'Flux (kg/(m2.hr))'
+         
+        flux = squeeze(handles.flux(:,:,handles.plotNumber));
+        h0=pcolor(hfigure,handles.xutm,handles.yutm,handles.elevation);
+        set(h0,'edgecolor','none','facealpha',handles.transparency_value); hold on;
+        caxis([min(flux(:)),max(flux(:))]);
+        h=pcolor(hfigure,handles.center_x,handles.center_y,100*flux);
+        set(h,'edgecolor','none','facealpha',handles.transparency_value);
+        title('flux(kg/m2/hr)');
+        xlabel('xUTM');
+        ylabel('yUTM');
+
+        surf(hfigure,peaks(35));
+    case  'Mass Balance'
+        
+        plot(hfigure,handles.mass_balance,'linewidth',2)
+        xlabel('N th time step');
+        ylabel('Total Mass left (kg)');
+    otherwise
+        
+end
+% update the axis limit to current plot
+xlim = get(hfigure,'xLim');
+ylim = get(hfigure,'yLim');
+set(handles.xMin,'String',num2str(xlim(1)));
+set(handles.xMax,'String',num2str(xlim(2)));
+set(handles.yMin,'String',num2str(ylim(1)));
+set(handles.yMax,'String',num2str(ylim(2)));
+
+
+guidata(hObject,handles);
+
+
+% --- Executes on selection change in UTMzone.
+function UTMzone_Callback(hObject, eventdata, handles)
+% hObject    handle to UTMzone (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns UTMzone contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from UTMzone
+
+
+% --- Executes during object creation, after setting all properties.
+function UTMzone_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to UTMzone (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on slider movement.
+function transparency_Callback(hObject, eventdata, handles)
+% hObject    handle to transparency (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function transparency_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to transparency (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+
+function horizontal_diffusion_coef_Callback(hObject, eventdata, handles)
+% hObject    handle to horizontal_diffusion_coef (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of horizontal_diffusion_coef as text
+%        str2double(get(hObject,'String')) returns contents of horizontal_diffusion_coef as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function horizontal_diffusion_coef_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to horizontal_diffusion_coef (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes when selected object is changed in uipanel_dem_data.
+function uipanel_dem_data_SelectionChangeFcn(hObject, eventdata, handles)
+% hObject    handle to the selected object in uipanel_dem_data 
+% eventdata  structure with the following fields (see UIBUTTONGROUP)
+%	EventName: string 'SelectionChanged' (read only)
+%	OldValue: handle of the previously selected object or empty if none was selected
+%	NewValue: handle of the currently selected object
+% handles    structure with handles and user data (see GUIDATA)
+%DEM data
+h1 = handles.uipanel_dem_data;
+DEM_source = get(get(h1,'SelectedObject'),'String');
+switch DEM_source
+    case 'GLOBE'
+         handles.globe_value = true;  
+    case 'User Customized DEM'
+         [pathname,dirname] = uigetfile();
+         fullpath = fullfile (dirname,pathname);
+%          fid = fopen(fullpath);
+         % read the data;
+% handles.DEM_data = balabala;         
+    otherwise
+        disp('Unknown Data Source');
+end
+guidata(hObject,handles);
+
+
+% --- Executes when selected object is changed in uipanel_bg_image.
+function uipanel_bg_image_SelectionChangeFcn(hObject, eventdata, handles)
+% hObject    handle to the selected object in uipanel_bg_image 
+% eventdata  structure with the following fields (see UIBUTTONGROUP)
+%	EventName: string 'SelectionChanged' (read only)
+%	OldValue: handle of the previously selected object or empty if none was selected
+%	NewValue: handle of the currently selected object
+% handles    structure with handles and user data (see GUIDATA)
+     % background image
+hbg = handles.uipanel_bg_image;
+bg_image = get(get(hbg,'SelectedObject'),'String');
+switch bg_image
+    case 'Default'
+        disp('Choose GLOBE DEM as background');
+    otherwise
+        [pathname,dirname] = uigetfile( {'*.jpg;*.png;*.bmp'},'Pick a geo_referenced image');
+        bg_image_path = fullfile(dirname,pathname);
+        % imread , only geo-referenced image will be supported
+end
+guidata(hObject,handles);
+
+
+% --- Executes when selected object is changed in uipanel32.
+function uipanel32_SelectionChangeFcn(hObject, eventdata, handles)
+% hObject    handle to the selected object in uipanel32 
+% eventdata  structure with the following fields (see UIBUTTONGROUP)
+%	EventName: string 'SelectionChanged' (read only)
+%	OldValue: handle of the previously selected object or empty if none was selected
+%	NewValue: handle of the currently selected object
+% handles    structure with handles and user data (see GUIDATA)
+% physical process switches
+hsr = handles.uipanel32;
+sr_switch = get(get(hsr,'SelectedObject'),'String');
+switch sr_switch
+    case 'On'
+        handles.surface_roughness_value = true;
+        [pathname,dirname] = uigetfile();
+        fullpath = fullfile(dirname,pathname);
+%         fid = fopen(fullpath,'rt');
+%           fclose(fid);
+    otherwise
+        handles.surface_roughness_value = false;
+end
+guidata(hObject,handles);
+
+
+% --- Executes when selected object is changed in uipanel33.
+function uipanel33_SelectionChangeFcn(hObject, eventdata, handles)
+% hObject    handle to the selected object in uipanel33 
+% eventdata  structure with the following fields (see UIBUTTONGROUP)
+%	EventName: string 'SelectionChanged' (read only)
+%	OldValue: handle of the previously selected object or empty if none was selected
+%	NewValue: handle of the currently selected object
+% handles    structure with handles and user data (see GUIDATA)
+
+hevp = handles.uipanel33;
+evp_switch = get(get(hevp,'SelectedObject'),'String');
+switch evp_switch
+    case 'On'
+        handles.evaporation_value = true;
+        [pathname,dirname] = uigetfile();
+        fullpath = fullfile(dirname,pathname);
+%         fid = fopen(fullpath,'rt');
+%           fclose(fid);        
+    otherwise
+        handles.evaporation_value = false;
+end
+guidata(hObject,handles);
+
+
+% --- Executes when selected object is changed in uipanel34.
+function uipanel34_SelectionChangeFcn(hObject, eventdata, handles)
+% hObject    handle to the selected object in uipanel34 
+% eventdata  structure with the following fields (see UIBUTTONGROUP)
+%	EventName: string 'SelectionChanged' (read only)
+%	OldValue: handle of the previously selected object or empty if none was selected
+%	NewValue: handle of the currently selected object
+% handles    structure with handles and user data (see GUIDATA)
+
+hwind = handles.uipanel34;
+wind_switch = get(get(hwind,'SelectedObject'),'String');
+switch wind_switch
+    case 'On'
+        handles.wind_value = true;
+        [pathname,dirname] = uigetfile();
+        fullpath = fullfile(dirname,pathname);
+%         fid = fopen(fullpath,'rt');
+%           fclose(fid);             
+    otherwise
+        handles.wind_value = false;
+end
+guidata(hObject,handles);
+
+
+% --- Executes when selected object is changed in uipanel35.
+function uipanel35_SelectionChangeFcn(hObject, eventdata, handles)
+% hObject    handle to the selected object in uipanel35 
+% eventdata  structure with the following fields (see UIBUTTONGROUP)
+%	EventName: string 'SelectionChanged' (read only)
+%	OldValue: handle of the previously selected object or empty if none was selected
+%	NewValue: handle of the currently selected object
+% handles    structure with handles and user data (see GUIDATA)
+
+
+hprecip = handles.uipanel35;
+precip_switch = get(get(hprecip,'SelectedObject'),'String');
+switch precip_switch
+    case 'On'
+        handles.precip_value = true;
+        [pathname,dirname] = uigetfile();
+        fullpath = fullfile(dirname,pathname);
+%         fid = fopen(fullpath,'rt');
+%           fclose(fid);                    
+    otherwise
+        handles.precip_value = false;
+end
+guidata(hObject,handles);
+
+
+
+function [u,v]=speed_split(center_i,center_j, next_i,next_j)
+    % return the scale(percentage) of u,v component
+    % 8 directions (N,E,S,W, NE,SE,NW,SW)
+    diff_i = next_i - center_i;
+    diff_j = next_j - center_j;
+    value = [diff_i,diff_j];
+
+    if (abs(diff_i * diff_j) == 1)
+        u = sqrt(2)/2 * diff_i ;
+        v = sqrt(2)/2 * diff_j;
+    else
+        u = 1 * diff_i ;
+        v = 1 * diff_j;
+    end
+    
+    
+
+
+return
+
+
+% --- Hand-written callback 
+% --- Used to return 'CData' for the Stopbutton icon on the Record\Stopbutton toggle button
+function logo = ERM_logo()
+logo = iconize(imread('ERM_logo.png'));
+
+function stop = stopbutton()
+
+stop = iconize(imread('stop.jpg'));
+stop(stop==255) = .8*255;
+
+
+% --- Hand-written callback 
+% --- Used to return 'CData' for the Play icon on the Play button
+function play = playbutton()
+
+play = iconize(imread('play.jpg'));
+play(play==255) = .8*255;
+
+function record = recordbutton()
+
+record = iconize(imread('record.jpg'));
+record(record==255) = .8*255;
+
+
+% --- Hand-written callback 
+% --- Used to return 'CData' for the Faster icon on the Faster button
+function faster = fasterbutton
+
+faster = [];
+
+
+% --- Hand-written callback 
+% --- Used to return 'CData' for the Slower icon on the Slower button
+function slower = slowerbutton
+
+slower = [];
+
+
+% --- Hand-written callback 
+% --- Used to create icon data from an image, a
+function out = iconize(a)
+
+% Find the size of the acquired image and determine how much data will need
+% to be lost in order to form a 18x18 icon
+[r,c,d] = size(a);
+r_skip = ceil(r/18);
+c_skip = ceil(c/18);
+
+% Create the 18x18 icon (RGB data)
+out = a(1:r_skip:end,1:c_skip:end,:);
+
+
+% --- Executes on button press in Stop.
+function Stop_Callback(hObject, eventdata, handles)
+% hObject    handle to Stop (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+msgbox('User stopped the computation, please start again!');
+error('User stoped computation!');
+
+
+
